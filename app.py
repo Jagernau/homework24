@@ -23,16 +23,15 @@ def perform_query() -> Response:
 
     check_count_args(**kwargs)
 
-    f = open(str(kwargs["file_path"]))
+    f = open(kwargs["file_path"])
     res = foo(f, str(kwargs["cmd1"]), str(kwargs["val1"]))
 
-    if str(kwargs["cmd2"]) and str(kwargs["val2"]):
+    if kwargs["cmd2"] and kwargs["val2"]:
         res = foo(iter(res), str(kwargs["cmd2"]), str(kwargs["val2"]))
-    res = res = "\n".join(res)
     f.close()
 
-    return app.response_class(res, content_type="text/plain")
+    return app.response_class("\n".join(res), content_type="text/plain")
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
